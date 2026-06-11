@@ -26,8 +26,18 @@ one former ice cream truck). Integration installs get realistic targets:
 
 ```sh
 npm install
-npm run dev      # auto-opens http://localhost:5173
+npm run dev      # auto-opens http://localhost:5173/big-earls/
 ```
+
+## Live site
+
+The app publishes to GitHub Pages on every push to `main`:
+**<https://tgstern.github.io/big-earls/>**
+
+`.github/workflows/deploy-pages.yml` builds `dist/` and deploys it — so every
+reset *and* every integration install that lands on `main` re-publishes the
+site. That gives installs a real hosted URL to verify against, not just
+localhost.
 
 ## Reset workflow
 
