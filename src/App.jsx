@@ -10,6 +10,19 @@ export default function App() {
   const currentUser = users.find((u) => u.id === userId)
   const isCustomer = currentUser.kind === 'customer'
 
+  function handleUserSwitch(e) {
+    const newId = e.target.value
+    setUserId(newId)
+    const newUser = users.find((u) => u.id === newId)
+    pendo.track("user_role_switched", {
+      newUserId: newUser.id,
+      newUserRole: newUser.role,
+      newUserKind: newUser.kind,
+      newUserLotId: newUser.lot.id,
+      newUserLotName: newUser.lot.name
+    })
+  }
+
   return (
     <div className="app">
       <div className="marquee">
@@ -32,7 +45,7 @@ export default function App() {
         </nav>
         <label className="user-switch">
           Logged in as
-          <select id="user-select" value={userId} onChange={(e) => setUserId(e.target.value)}>
+          <select id="user-select" value={userId} onChange={handleUserSwitch}>
             {users.map((u) => (
               <option key={u.id} value={u.id}>{u.name} — {u.role}</option>
             ))}
