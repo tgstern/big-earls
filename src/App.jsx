@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Navigate, NavLink, Route, Routes } from 'react-router-dom'
 import Dashboard from './pages/Dashboard.jsx'
 import Inventory from './pages/Inventory.jsx'
@@ -9,6 +9,22 @@ export default function App() {
   const [userId, setUserId] = useState(users[0].id)
   const currentUser = users.find((u) => u.id === userId)
   const isCustomer = currentUser.kind === 'customer'
+
+  useEffect(() => {
+    pendo.identify({
+      visitor: {
+        id: currentUser.id,
+        full_name: currentUser.name,
+        role: currentUser.role,
+        kind: currentUser.kind,
+        lotId: currentUser.lot.id,
+      },
+      account: {
+        id: currentUser.lot.id,
+        name: currentUser.lot.name,
+      },
+    })
+  }, [currentUser])
 
   return (
     <div className="app">

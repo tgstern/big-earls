@@ -4,6 +4,8 @@ import { BrowserRouter } from 'react-router-dom'
 import App from './App.jsx'
 import './styles.css'
 
+pendo.initialize({ visitor: { id: '' } })
+
 const basename = import.meta.env.BASE_URL.replace(/\/+$/, '')
 
 ReactDOM.createRoot(document.getElementById('root')).render(
