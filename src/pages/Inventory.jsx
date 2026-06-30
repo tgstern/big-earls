@@ -12,6 +12,24 @@ export default function Inventory() {
     if (approved) return
     setApproved(true)
     setTimeout(() => setApproved(false), 5000)
+
+    pendo.track("financing_application_submitted", {
+      vehicleTypeFilter: type,
+      vehiclesShown: shown.length,
+      totalVehicles: vehicles.length
+    })
+  }
+
+  function handleFilterChange(e) {
+    const newType = e.target.value
+    const resultsCount = newType === 'All' ? vehicles.length : vehicles.filter((v) => v.type === newType).length
+    setType(newType)
+
+    pendo.track("inventory_filtered", {
+      filterType: newType,
+      resultsCount: resultsCount,
+      totalVehicles: vehicles.length
+    })
   }
 
   return (
@@ -20,7 +38,7 @@ export default function Inventory() {
       <div className="toolbar">
         <label>
           Show me:
-          <select id="filter-type" value={type} onChange={(e) => setType(e.target.value)}>
+          <select id="filter-type" value={type} onChange={handleFilterChange}>
             {types.map((t) => <option key={t}>{t}</option>)}
           </select>
         </label>
